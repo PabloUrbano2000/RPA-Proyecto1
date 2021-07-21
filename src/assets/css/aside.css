@@ -1,0 +1,7 @@
+.aside-width{
+    float: left;
+    min-width: 15%;
+    width: 15%;
+    background-color: #555;
+    min-height: 30%;
+}
