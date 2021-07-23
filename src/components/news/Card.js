@@ -3,19 +3,28 @@ import PropTypes from "prop-types"; // VALIDACION: un componente tiene que recib
 
 import "../../assets/css/cards.css";
 
-function Card({ imageSource, title, text, url }) {
+function Card({ title, image, url, description }) {
   return (
-    <div className="card text-center bg-dark animate__animated animate__fadeInUp"> 
+    <div className="card text-center bg-dark animate__animated animate__fadeInUp">
       <div className="overflow">
-        <img src="https://i.blogs.es/07c1d8/google-maps/1366_2000.jpg" alt="a wallpaper" className="card-img-top" />
+        <img
+          src={
+            image === null || image === ""
+              ? "https://fpae.pt/backup/20181025/wp/wp-content/plugins/post-slider-carousel/images/no-image-available-grid.jpg"
+              : image
+          }
+          alt={title}
+          className="card-img-top"
+        />
       </div>
       <div className="card-body text-light">
         <h4 className="card-title">{title}</h4>
-        <p className="card-text text-secondary">
- 
-          {text
-            ? text
-            : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam deserunt fuga accusantium excepturi quia, voluptates obcaecati nam in voluptas perferendis velit harum dignissimos quasi ex? Tempore repellat quo doloribus magnam."}
+        <p className="card-text text-secondary description">
+          {description
+            ? description.length > 90
+              ? description.substring(0, 87) + "..."
+              : description
+            : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. "}
         </p>
         <a
           href={url ? url : "#!"}
@@ -23,20 +32,20 @@ function Card({ imageSource, title, text, url }) {
           className="btn btn-outline-secondary border-0" //estilo gris sin bordes
           rel="noreferrer"
         >
-          Go to {title}
+          Ir al Artículo
         </a>
       </div>
     </div>
   );
 }
 
-//VALIDAMOS EL CARD 
+//VALIDAMOS EL CARD
 
 Card.propTypes = {
   title: PropTypes.string.isRequired,
   text: PropTypes.string,
   url: PropTypes.string,
-  imageSource: PropTypes.string
+  imageSource: PropTypes.string,
 };
 
 export default Card;

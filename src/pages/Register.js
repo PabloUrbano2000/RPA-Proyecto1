@@ -1,4 +1,5 @@
 import Spinner from "../components/Spinner";
+import Mensaje from "../components/Mensaje";
 
 import React, { useState } from "react";
 
@@ -17,6 +18,12 @@ function Register({ handleLogged }) {
     numDocReg: "",
   });
 
+  // En caso haya error
+  const [isError, setError] = useState(false);
+
+  // Controlador de spinner
+  const [enableSpinner, setEnableSpinner] = useState(false);
+
   // definiendo la funcion
   const handleInput = (e) => {
     //obteniendo los valores y nombres de los inputs
@@ -29,13 +36,12 @@ function Register({ handleLogged }) {
     });
 
     // verficando lo obtenido
-    console.log("capturando", dataRegister);
+    // console.log("capturando", dataRegister);
   };
 
   // AL PRESIONAR EL BOTON PARA REGISTRARNOS
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("enviar", dataRegister);
 
     // obtener datos del dataLogin
     const {
@@ -48,6 +54,9 @@ function Register({ handleLogged }) {
       typeDocReg,
       numDocReg,
     } = dataRegister;
+
+    // activamos el spinner
+    setEnableSpinner(true);
 
     // QUE BUSQUE EL OBJETO DEL WINDOW Y EJECUTE
     // El rememberMe: es para que se haga una sesion persistente
@@ -90,16 +99,37 @@ function Register({ handleLogged }) {
     )
       .then((res) => {
         console.log("registro exitoso", res);
-        handleLogged();
+        // en caso todo bien
+        setTimeout(() => {
+          // desactivamos el spinner
+          setEnableSpinner(false);
+          handleLogged();
+        }, 2500);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        // muestra mensaje de error
+        console.error(error);
+        setError(true);
+        setTimeout(() => {
+          // desactivamos el spinner
+          setEnableSpinner(false);
+
+          // desaparecer error
+          setTimeout(() => {
+            setError(false);
+          }, 2500);
+        }, 2500);
       });
   };
 
   // RETORNARÁ EL FORMULARIO
-  return (
+  return enableSpinner ? (
+    <Spinner />
+  ) : (
     <form onSubmit={handleSubmit}>
+      <div className="titulo-form">
+        <h3>Registrate!</h3>
+      </div>
       <div className="row">
         <div className="col-12 col-md-6 form-group">
           <input
@@ -117,6 +147,10 @@ function Register({ handleLogged }) {
             name="passReg"
             placeholder="Contraseña"
             className="form-control"
+            minLength="8"
+            maxLength="15"
+            pattern="[A-Za-z0-9 @_.]{8,15}"
+            title="ejm: ejemplo@ej123"
             onChange={handleInput}
             required
           />
@@ -128,6 +162,10 @@ function Register({ handleLogged }) {
           type="text"
           name="nameReg"
           placeholder="Nombre(s)"
+          pattern="[A-Za-záéíóúÁÉÍÓÚ ]{2,40}]"
+          title="ejemplo ejemplo2"
+          minLength="2"
+          maxLength="40"
           className="form-control"
           onChange={handleInput}
           required
@@ -140,6 +178,10 @@ function Register({ handleLogged }) {
             name="lastNameReg"
             placeholder="Apellido Paterno"
             className="form-control"
+            pattern="[A-Za-záéíóúÁÉÍÓÚ ]{2,25}]"
+            title="Silvester"
+            minLength="2"
+            maxLength="25"
             onChange={handleInput}
             required
           />
@@ -150,6 +192,10 @@ function Register({ handleLogged }) {
             name="secondLastNameReg"
             placeholder="Apellido Materno"
             className="form-control"
+            pattern="[A-Za-záéíóúÁÉÍÓÚ ]{2,25}]"
+            title="Mackley"
+            minLength="2"
+            maxLength="25"
             onChange={handleInput}
             required
           />
@@ -162,6 +208,10 @@ function Register({ handleLogged }) {
           placeholder="Teléfono/Celular"
           className="form-control"
           onChange={handleInput}
+          pattern="[0-9]{7,9}]"
+          title="7 a 9 caracteres numéricos"
+          minLength="7"
+          maxLength="9"
           required
         />
       </div>
@@ -172,6 +222,7 @@ function Register({ handleLogged }) {
             name="typeDocReg"
             onChange={handleInput}
             className="form-control"
+            required
           >
             <option value="">[Seleccione]</option>
             <option value="DNI">DNI</option>
@@ -185,6 +236,10 @@ function Register({ handleLogged }) {
             placeholder="Número Documento"
             className="form-control"
             onChange={handleInput}
+            pattern="[0-9]{8}]"
+            title="8 caracteres numéricos"
+            minLength="8"
+            maxLength="8"
             required
           />
         </div>
@@ -197,6 +252,9 @@ function Register({ handleLogged }) {
           value="Registrarse"
         ></input>
       </div>
+      {isError ? (
+        <Mensaje mensaje={"Algo salió mal al registrar sus datos :("} />
+      ) : null}
     </form>
   );
 }

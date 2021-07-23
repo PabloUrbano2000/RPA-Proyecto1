@@ -1,6 +1,5 @@
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Profile from "./components/Profile";
 
 import "./assets/css/App.css";
 import React, { useState, useEffect } from "react";
@@ -70,13 +69,14 @@ function App() {
 
   return (
     <div className="App">
-        {isLogged ? (
-          <>
-            {/*<Profile handleLogged={handleLogged} />*/}
+      {isLogged ? (
+        <>
+          <div className="bck-gray">
             <Main handleLogged={handleLogged} />
-          </>
-        ) : (
-          <div className="form-responsive">
+          </div>
+        </>
+      ) : (
+        <div className="form-responsive">
           <div className="border-form">
             {isShowRegister ? (
               <>
@@ -104,9 +104,9 @@ function App() {
               </>
             )}
           </div>
-          </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
   );
 }
 

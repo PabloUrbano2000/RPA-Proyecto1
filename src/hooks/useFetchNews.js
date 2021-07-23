@@ -1,24 +1,32 @@
-import { useEffect, useState } from 'react';
-import {getNewsByCategory} from '../helpers/getNewsByCategory';
+import { useEffect, useState } from "react";
+import { getNewsByCategory } from "../helpers/getNewsByCategory";
+import { getNewsBySearch } from "../helpers/getNewsBySearch";
 
-const useFetchNews = (category) => {
+const UseFetchNews = (search, category, language) => {
+  const [state, setState] = useState({
+    data: [],
+    loading: true,
+  });
 
-    const [state, setState] = useState({
-        data: [],
-        loading: true
-    })
+  useEffect(() => {
+    if (search === "") {
+      getNewsByCategory(category, language).then((news) => {
+        setState({
+          data: news,
+          loading: false,
+        });
+      });
+    } else {
+      getNewsBySearch(search, language).then((news) => {
+        setState({
+          data: news,
+          loading: false,
+        });
+      });
+    }
+  }, [search, category, language]);
 
-    useEffect(() => {
-        getNewsByCategory(category)
-            .then(news => {
-                setState({
-                    data: news,
-                    loading: false
-                })
-            });
-            
-    }, [category]);
-    return state;
-}
+  return state;
+};
 
-export default useFetchNews;
+export default UseFetchNews;

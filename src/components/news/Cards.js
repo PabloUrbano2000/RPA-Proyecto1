@@ -1,42 +1,34 @@
 import React from "react";
 import Card from "./Card";
 
-import image1 from "../../assets/images/image1.jpg";
-import image2 from '../../assets/images/image2.jpg'
-import image3 from '../../assets/images/image3.jpg'
+import useFetchNews from "../../hooks/useFetchNews";
+import Spinner from "../Spinner";
 
-const cards = [
-  {
-    id: 1,
-    title: "El Comercio",
-    image: image1,
-    url: "https://elcomercio.pe",
-  },
-  {
-    id: 2,
-    title: "La Republica",
-    image: image2,
-    url: "https://larepublica.pe",
-  },
-  {
-    id: 3,
-    title: "Trome",
-    image: image3,
-    url: "https://trome.pe",
-  },
-];
+function Cards(props) {
+  const { data: news, loading } = useFetchNews(
+    props.busqueda,
+    props.filtro,
+    props.idioma
+  );
 
-function Cards() {
+  console.log(news);
   return (
-    <div className="container d-flex justify-content-center align-items-center h-100">
-      <div className="row">
-        {cards.map(({ title, image, url, id }) => (
-          <div className="col-md-4" key={id}>
-            <Card imageSource={image} title={title} url={url} />
+    <>
+      {loading && <Spinner />}
+      {news.length !== 0 ? (
+        <div className="container d-flex justify-content-center align-items-center h-100 mt-3">
+          <div className="row">
+            {news.map((article) => (
+              <div className="col-md-4">
+                <Card key={article.title} {...article} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
+        </div>
+      ) : (
+        <p className="text-light">No se encontraron resultados.</p>
+      )}
+    </>
   );
 }
 
