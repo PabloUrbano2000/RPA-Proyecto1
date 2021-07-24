@@ -1,30 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types"; // VALIDACION: un componente tiene que recibir determinado dato o tipoDeDato
-
 import "../../assets/css/cards.css";
 
 function Card({ title, image, url, description }) {
+  const retornaImage = () => {
+    if (image === null || image === "") {
+      return "https://fpae.pt/backup/20181025/wp/wp-content/plugins/post-slider-carousel/images/no-image-available-grid.jpg";
+    }
+    return image;
+  };
+
+  const retornaDescription = () => {
+    if (description !== null || description === "") {
+      if (description.length > 90) {
+        return description.substring(0, 87) + "...";
+      } else {
+        return description;
+      }
+    }
+    return "Lorem ipsum dolor sit amet consectetur, adipisicing elit. ";
+  };
+
   return (
     <div className="card text-center bg-dark animate__animated animate__fadeInUp">
       <div className="overflow">
-        <img
-          src={
-            image === null || image === ""
-              ? "https://fpae.pt/backup/20181025/wp/wp-content/plugins/post-slider-carousel/images/no-image-available-grid.jpg"
-              : image
-          }
-          alt={title}
-          className="card-img-top"
-        />
+        <img src={retornaImage()} alt={title} className="card-img-top" />
       </div>
       <div className="card-body text-light">
         <h4 className="card-title">{title}</h4>
         <p className="card-text text-secondary description">
-          {description
-            ? description.length > 90
-              ? description.substring(0, 87) + "..."
-              : description
-            : "Lorem ipsum dolor sit amet consectetur, adipisicing elit. "}
+          {retornaDescription()}
         </p>
         <a
           href={url ? url : "#!"}

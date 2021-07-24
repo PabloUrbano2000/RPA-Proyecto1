@@ -2,9 +2,13 @@ import React from "react";
 
 export default function Spinner() {
   return (
-    <div id="spinner" className="spinner">
-      <div className="cube1"></div>
-      <div className="cube2"></div>
+    <div className="sk-chase">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
     </div>
   );
 }

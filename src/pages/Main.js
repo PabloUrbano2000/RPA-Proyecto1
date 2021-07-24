@@ -4,12 +4,10 @@ import "../assets/css/App.css";
 
 import "../assets/css/header.css";
 
-function Main({ handleLogged }) {
+function Main(props) {
   return (
     <>
-      <header className="header-width">
-        <NavBar handleLogged={handleLogged}></NavBar>
-      </header>
+      <NavBar handleLogged={props.handleLogged}></NavBar>
     </>
   );
 }

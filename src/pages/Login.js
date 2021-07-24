@@ -2,25 +2,18 @@ import Spinner from "../components/Spinner";
 import Mensaje from "../components/Mensaje";
 import React, { useState } from "react";
 
-function Login({ handleLogged }) {
+function Login(props) {
   const [dataLogin, setDataLogin] = useState({
-    // tienen que ser llamados igual que los names
-    // de los inputs
     emailLogin: "",
     passLogin: "",
   });
 
-  // En caso haya error
   const [isError, setError] = useState(false);
 
-  // Controlador de spinner
   const [enableSpinner, setEnableSpinner] = useState(false);
 
   const handleInput = (e) => {
-    //obteniendo los valores y nombres de los inputs
     const { value, name } = e.target;
-
-    // esto servirá para capturar los valores de cada input
     setDataLogin({
       ...dataLogin,
       [name]: value,
@@ -29,37 +22,22 @@ function Login({ handleLogged }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // activamos el spinner
     setEnableSpinner(true);
 
-    // obtener datos del dataLogin
     const { emailLogin, passLogin } = dataLogin;
 
-    // QUE BUSQUE EL OBJETO DEL WINDOW Y EJECUTE
-    // El rememberMe: es para que se haga una sesion persistente
     window.Identity.login(emailLogin, passLogin, { rememberMe: true })
       .then((res) => {
-        console.log("todo correcto: ", res);
-
-        // en caso todo bien
         setTimeout(() => {
-          // desactivamos el spinner
           setEnableSpinner(false);
-          handleLogged();
+          props.handleLogged();
         }, 2500);
       })
       .catch((error) => {
-        console.log("Algo ah pasado: ", error);
         if (error.httpStatus === 401) {
           setTimeout(() => {
-            // desactivamos el spinner
             setEnableSpinner(false);
-
-            // muestra mensaje de error
             setError(true);
-
-            // desaparecer error
             setTimeout(() => {
               setError(false);
             }, 2500);

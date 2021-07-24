@@ -10,8 +10,6 @@ function Cards(props) {
     props.filtro,
     props.idioma
   );
-
-  console.log(news);
   return (
     <>
       {loading && <Spinner />}

@@ -23,7 +23,6 @@ function App() {
 
       window.Identity.isLoggedIn()
         .then((res) => {
-          console.log("está logueado?:", res);
           if (res === true) {
             setIsLogged(true);
           } else {
@@ -41,12 +40,8 @@ function App() {
 
   // en caso el usuario se registre o logue
   const handleLogged = () => {
-    console.log("check login");
-
     window.Identity.isLoggedIn()
       .then((res) => {
-        console.log(res);
-
         if (res === true) {
           setIsLogged(true);
         } else {

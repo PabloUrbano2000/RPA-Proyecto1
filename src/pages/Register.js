@@ -4,10 +4,7 @@ import Mensaje from "../components/Mensaje";
 import React, { useState } from "react";
 
 function Register({ handleLogged }) {
-  // 1ro: se guarda el hook, 2do: se modifica el hook
   const [dataRegister, setDataRegister] = useState({
-    // tienen que ser llamados igual que los names
-    // de los inputs
     emailReg: "",
     passReg: "",
     nameReg: "",
@@ -18,32 +15,18 @@ function Register({ handleLogged }) {
     numDocReg: "",
   });
 
-  // En caso haya error
   const [isError, setError] = useState(false);
-
-  // Controlador de spinner
   const [enableSpinner, setEnableSpinner] = useState(false);
 
-  // definiendo la funcion
   const handleInput = (e) => {
-    //obteniendo los valores y nombres de los inputs
     const { value, name } = e.target;
-
-    // esto servirá para capturar los valores de cada input
     setDataRegister({
       ...dataRegister,
       [name]: value,
     });
-
-    // verficando lo obtenido
-    // console.log("capturando", dataRegister);
   };
-
-  // AL PRESIONAR EL BOTON PARA REGISTRARNOS
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // obtener datos del dataLogin
     const {
       emailReg,
       passReg,
@@ -55,11 +38,8 @@ function Register({ handleLogged }) {
       numDocReg,
     } = dataRegister;
 
-    // activamos el spinner
     setEnableSpinner(true);
 
-    // QUE BUSQUE EL OBJETO DEL WINDOW Y EJECUTE
-    // El rememberMe: es para que se haga una sesion persistente
     window.Identity.signUp(
       {
         userName: emailReg,
@@ -91,30 +71,23 @@ function Register({ handleLogged }) {
           },
         ],
       },
-      // importante
       { doLogin: true },
 
-      // para mantener sesion permanente
       { rememberMe: true }
     )
       .then((res) => {
         console.log("registro exitoso", res);
-        // en caso todo bien
         setTimeout(() => {
-          // desactivamos el spinner
           setEnableSpinner(false);
           handleLogged();
         }, 2500);
       })
       .catch((error) => {
-        // muestra mensaje de error
         console.error(error);
         setError(true);
         setTimeout(() => {
-          // desactivamos el spinner
           setEnableSpinner(false);
 
-          // desaparecer error
           setTimeout(() => {
             setError(false);
           }, 2500);
@@ -122,7 +95,6 @@ function Register({ handleLogged }) {
       });
   };
 
-  // RETORNARÁ EL FORMULARIO
   return enableSpinner ? (
     <Spinner />
   ) : (
