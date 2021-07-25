@@ -57,10 +57,10 @@ function Login(props) {
         <div className="form-group">
           <input
             className="form-control"
-            type="email"
             name="emailLogin"
             placeholder="Ingresa Correo"
-            minLength="2"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}"
+            title="ejemplo@ej.com"
             required
             onChange={handleInput}
           ></input>
@@ -73,7 +73,7 @@ function Login(props) {
             placeholder="Ingresa Contraseña"
             minLength="8"
             maxLength="15"
-            pattern="[A-Za-z0-9 @_.]{8,15}"
+            pattern="[A-Za-z0-9@_. ]{8,15}"
             title="ejm: ejemplo@ej123"
             required
             onChange={handleInput}
