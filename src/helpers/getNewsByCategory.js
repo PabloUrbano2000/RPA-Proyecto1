@@ -1,5 +1,5 @@
 export const getNewsByCategory = async (category, language) => {
-  const url2 = `https://newsapi.org/v2/top-headlines?category=${category}&language=${language}&apiKey=8add536625044b2ab1104ac79335aa2c`;
+  const url2 = `https://newsapi.org/v2/top-headlines?category=${category}&language=${language}&apiKey=a456f85d87e34ec1a63cf9b132408f80`;
   const resp = await fetch(url2);
   const { articles } = await resp.json();
 

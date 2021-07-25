@@ -22,9 +22,17 @@ function Card({ title, image, url, description }) {
   };
 
   return (
-    <div className="card text-center bg-dark animate__animated animate__fadeInUp">
-      <div className="overflow">
-        <img src={retornaImage()} alt={title} className="card-img-top" />
+    <div
+      className="card text-center bg-dark animate__animated animate__fadeInUp mb-2"
+      style={{ height: "450px" }}
+    >
+      <div className="overflow" style={{ height: "200px" }}>
+        <img
+          src={retornaImage()}
+          alt={title}
+          className="card-img-top"
+          loading="lazy"
+        />
       </div>
       <div className="card-body text-light">
         <h4 className="card-title">{title}</h4>
